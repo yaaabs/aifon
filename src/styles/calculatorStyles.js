@@ -108,7 +108,7 @@ export const styles = StyleSheet.create({
   displayText: {
     fontSize: getDisplayFontSize(),
     color: COLORS.displayText,
-    fontWeight: '200',
+    fontWeight: '300',
   },
   equationText: {
     fontSize: (() => {
@@ -135,7 +135,7 @@ export const styles = StyleSheet.create({
       return 42;
     })(),
     color: COLORS.displayText,
-    fontWeight: '200',
+    fontWeight: '300',
   },
   displayTextTiny: {
     fontSize: (() => {
@@ -147,7 +147,7 @@ export const styles = StyleSheet.create({
       return 30;
     })(),
     color: COLORS.displayText,
-    fontWeight: '200',
+    fontWeight: '300',
   },
   buttonContainer: {
     paddingBottom: isMobile ? 10 : 20,
@@ -183,7 +183,7 @@ export const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: getButtonFontSize(),
-    fontWeight: '400',
+    fontWeight: '500',
   },
   numberButton: {
     backgroundColor: COLORS.numberButton,
@@ -196,6 +196,7 @@ export const styles = StyleSheet.create({
   },
   functionButtonText: {
     color: COLORS.functionButtonText,
+    fontWeight: '600',
     fontSize: (() => {
       if (isMobile) {
         const size = Math.min(screenWidth * 0.07, 32);
@@ -210,6 +211,7 @@ export const styles = StyleSheet.create({
   },
   operationButtonText: {
     color: COLORS.operationButtonText,
+    fontWeight: '500',
     fontSize: (() => {
       if (isMobile) {
         const size = Math.min(screenWidth * 0.09, 42);
@@ -224,6 +226,7 @@ export const styles = StyleSheet.create({
   },
   operationButtonActiveText: {
     color: COLORS.operationButtonActiveText,
+    fontWeight: '500',
     fontSize: (() => {
       if (isMobile) {
         const size = Math.min(screenWidth * 0.09, 42);

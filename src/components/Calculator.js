@@ -15,7 +15,7 @@ const Calculator = () => {
   const buttonLayout = [
     [
       { value: 'AC', type: 'function' },
-      { value: '±', type: 'function' },
+      { value: '+/-', type: 'function' },
       { value: '%', type: 'function' },
       { value: '÷', type: 'operation' }
     ],
@@ -194,6 +194,7 @@ const Calculator = () => {
         clear();
         break;
 
+      case '+/-':
       case '±':
         toggleSign();
         break;
