@@ -10,6 +10,7 @@ const Calculator = () => {
   const [previousValue, setPreviousValue] = useState(null);
   const [operation, setOperation] = useState(null);
   const [waitingForOperand, setWaitingForOperand] = useState(false);
+  const [equation, setEquation] = useState(''); // New state for showing the equation
 
   const buttonLayout = [
     [
@@ -79,29 +80,45 @@ const Calculator = () => {
     setPreviousValue(null);
     setOperation(null);
     setWaitingForOperand(false);
+    setEquation(''); // Clear the equation display
   };
 
   const toggleSign = () => {
     if (displayValue !== '0') {
-      setDisplayValue(
-        displayValue.charAt(0) === '-' 
-          ? displayValue.substr(1) 
-          : '-' + displayValue
-      );
+      const newValue = displayValue.charAt(0) === '-' 
+        ? displayValue.substr(1) 
+        : '-' + displayValue;
+      setDisplayValue(newValue);
+      
+      // Update equation if we're in the middle of building one
+      if (equation && !waitingForOperand) {
+        // This is a bit complex, but we want to update the last number in the equation
+        // For now, let's keep it simple and not update equation for sign changes
+      }
     }
   };
 
   const inputPercentage = () => {
     const value = parseFloat(displayValue);
-    setDisplayValue(String(value / 100));
+    const newValue = String(value / 100);
+    setDisplayValue(newValue);
+    
+    // If we're in an operation, treat percentage as completing the current input
+    if (equation && operation && !waitingForOperand) {
+      // The percentage becomes the new current value
+      setWaitingForOperand(true);
+    }
   };
 
   const performOperation = (nextOperation) => {
     const inputValue = parseFloat(displayValue);
 
     if (previousValue === null) {
+      // First operation - show the number and operation
       setPreviousValue(inputValue);
+      setEquation(`${displayValue} ${nextOperation}`);
     } else if (operation) {
+      // Chain operations - calculate and continue building equation
       const currentValue = previousValue || 0;
       const newValue = calculate(currentValue, inputValue, operation);
 
@@ -110,11 +127,17 @@ const Calculator = () => {
         setPreviousValue(null);
         setOperation(null);
         setWaitingForOperand(true);
+        setEquation('');
         return;
       }
 
       setDisplayValue(String(newValue));
       setPreviousValue(parseFloat(newValue));
+      // Update equation to show the new result and next operation
+      setEquation(`${newValue} ${nextOperation}`);
+    } else {
+      // Operation after equals - start new calculation
+      setEquation(`${displayValue} ${nextOperation}`);
     }
 
     setWaitingForOperand(true);
@@ -125,6 +148,8 @@ const Calculator = () => {
     const inputValue = parseFloat(displayValue);
 
     if (previousValue !== null && operation) {
+      // Complete the equation display before calculating
+      const fullEquation = `${equation.replace(/ [+\-×÷]$/, '')} ${operation} ${displayValue} =`;
       const newValue = calculate(previousValue, inputValue, operation);
       
       if (newValue === 'Error') {
@@ -132,6 +157,7 @@ const Calculator = () => {
         setPreviousValue(null);
         setOperation(null);
         setWaitingForOperand(true);
+        setEquation('');
         return;
       }
 
@@ -139,6 +165,8 @@ const Calculator = () => {
       setPreviousValue(null);
       setOperation(null);
       setWaitingForOperand(true);
+      // Show the complete calculation
+      setEquation(fullEquation);
     }
   };
 
@@ -201,7 +229,7 @@ const Calculator = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.calculatorWrapper}>
-        <Display value={displayValue} />
+        <Display value={displayValue} equation={equation} />
         <View style={styles.buttonContainer}>
           {buttonLayout.map((row, rowIndex) => (
             <View key={rowIndex} style={styles.buttonRow}>

@@ -110,6 +110,21 @@ export const styles = StyleSheet.create({
     color: COLORS.displayText,
     fontWeight: '200',
   },
+  equationText: {
+    fontSize: (() => {
+      if (isMobile) {
+        const size = Math.min(screenWidth * 0.06, 28);
+        return Math.max(size, 16); // Minimum for small screens
+      }
+      if (isTabletWeb) return 24;
+      return 20; // Desktop web
+    })(),
+    color: COLORS.displayText,
+    fontWeight: '300',
+    opacity: 0.7,
+    marginBottom: 5,
+    textAlign: 'right',
+  },
   displayTextSmall: {
     fontSize: (() => {
       if (isMobile) {
