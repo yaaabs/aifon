@@ -1,0 +1,27 @@
+{
+  "name": "Aifon Calculator - iPhone Calculator Clone",
+  "short_name": "Aifon",
+  "start_url": "/",
+  "scope": "/",
+  "description": "A pixel-perfect iPhone calculator clone built with React Native and Expo",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "categories": ["utilities", "productivity", "tools"],
+  "lang": "en-US",
+  "icons": [
+    {
+      "src": "/favicon/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon/android-chrome-512x512.png", 
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
