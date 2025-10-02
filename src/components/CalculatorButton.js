@@ -51,13 +51,25 @@ const CalculatorButton = ({ value, type, onPress, isActive = false, isWide = fal
     return textStyle;
   };
 
+  // Get the display text with proper iPhone-style icons
+  const getDisplayText = () => {
+    switch (value) {
+      case '⌫':
+        return '⌫'; // Delete icon (already correct)
+      case '+/-':
+        return '+/−'; // Original iPhone-style plus/minus with proper minus
+      default:
+        return value;
+    }
+  };
+
   return (
     <TouchableOpacity
       style={getButtonStyle()}
       onPress={() => onPress(value)}
       activeOpacity={0.7}
     >
-      <Text style={getTextStyle()}>{value}</Text>
+      <Text style={getTextStyle()}>{getDisplayText()}</Text>
     </TouchableOpacity>
   );
 };

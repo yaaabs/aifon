@@ -29,35 +29,35 @@ const buttonSize = (() => {
 // Font sizes: Better responsive scaling for all mobile sizes
 const getDisplayFontSize = () => {
   if (isMobile) {
-    // Better mobile scaling that works on all screen sizes
-    const baseFontSize = Math.min(screenWidth * 0.15, 70);
-    return Math.max(baseFontSize, 32); // Minimum font size for readability
+    // Large but balanced display font
+    const baseFontSize = Math.min(screenWidth * 0.18, 80);
+    return Math.max(baseFontSize, 42); // Large but reasonable
   }
-  if (isTabletWeb) return 65;
-  return 55; // Desktop web
+  if (isTabletWeb) return 70;
+  return 64; // Desktop web
 };
 
 const getButtonFontSize = () => {
   if (isMobile) {
-    // Better mobile scaling with minimum size for small screens
-    const baseFontSize = Math.min(screenWidth * 0.08, 36);
-    return Math.max(baseFontSize, 20); // Minimum font size for small screens
+    // Balanced font size - large but not breaking symbols
+    const baseFontSize = Math.min(screenWidth * 0.10, 42);
+    return Math.max(baseFontSize, 28); // Reasonable size for symbols
   }
-  if (isTabletWeb) return 32;
-  return 28; // Desktop web
+  if (isTabletWeb) return 38;
+  return 36; // Desktop web
 };
 
 export const COLORS = {
   background: '#000000',
-  displayText: '#FFFFFF',
-  numberButton: '#333333',
-  numberButtonText: '#FFFFFF',
-  functionButton: '#A5A5A5',
-  functionButtonText: '#000000',
-  operationButton: '#FF9F0A',
-  operationButtonText: '#FFFFFF',
-  operationButtonActive: '#FFFFFF',
-  operationButtonActiveText: '#FF9F0A',
+  displayText: '#FEFEFE',
+  numberButton: '#303030', // Dark gray for numbers
+  numberButtonText: '#FEFEFE', // Off-white
+  functionButton: '#5B5B5B', // Medium gray for delete, C, %
+  functionButtonText: '#FEFEFE', // Off-white
+  operationButton: '#FF9201', // Orange for operations
+  operationButtonText: '#FEFEFE', // Off-white
+  operationButtonActive: '#FEFEFE', // White when active
+  operationButtonActiveText: '#FF9201', // Orange text when active
 };
 
 export const styles = StyleSheet.create({
@@ -107,47 +107,79 @@ export const styles = StyleSheet.create({
   },
   displayText: {
     fontSize: getDisplayFontSize(),
-    color: COLORS.displayText,
-    fontWeight: '300',
+    color: '#FEFEFE', // Off-white
+    fontWeight: '600', // Much bolder for better visibility
+    fontFamily: 'Segoe UI, Helvetica, Arial, sans-serif',
   },
   equationText: {
     fontSize: (() => {
       if (isMobile) {
-        const size = Math.min(screenWidth * 0.06, 28);
-        return Math.max(size, 16); // Minimum for small screens
+        const size = Math.min(screenWidth * 0.12, 48); // Even larger equation text
+        return Math.max(size, 30);
       }
-      if (isTabletWeb) return 24;
-      return 20; // Desktop web
+      if (isTabletWeb) return 38;
+      return 34;
     })(),
-    color: COLORS.displayText,
-    fontWeight: '300',
-    opacity: 0.7,
-    marginBottom: 5,
+    color: '#FEFEFE', // Off-white
+    fontWeight: '500', // Bolder for better visibility
+    opacity: 0.8, // Less transparent for better visibility
+    marginBottom: 8,
     textAlign: 'right',
+    letterSpacing: 0.5,
+    fontFamily: 'Segoe UI, Helvetica, Arial, sans-serif',
+    // Prevent line wrapping - force horizontal display like iPhone
+    flexShrink: 1,
+    width: '100%',
+  },
+  equationContainer: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    minHeight: (() => {
+      if (isMobile) {
+        const size = Math.min(screenWidth * 0.11, 44); // Larger equation container
+        return Math.max(size, 30) + 8;
+      }
+      if (isTabletWeb) return 42;
+      return 38;
+    })(),
+  },
+  equationPlaceholder: {
+    height: (() => {
+      if (isMobile) {
+        const size = Math.min(screenWidth * 0.08, 32);
+        return Math.max(size, 20) + 8;
+      }
+      if (isTabletWeb) return 36;
+      return 32;
+    })(),
   },
   displayTextSmall: {
     fontSize: (() => {
       if (isMobile) {
-        const size = Math.min(screenWidth * 0.11, 55);
-        return Math.max(size, 28); // Minimum for readability
+        const size = Math.min(screenWidth * 0.15, 70);
+        return Math.max(size, 36); // Larger for iPhone style
       }
-      if (isTabletWeb) return 50;
-      return 42;
+      if (isTabletWeb) return 62;
+      return 54;
     })(),
-    color: COLORS.displayText,
-    fontWeight: '300',
+    color: '#FFFFFF',
+    fontWeight: '200',
+    fontFamily: 'Segoe UI, Helvetica, Arial, sans-serif',
   },
   displayTextTiny: {
     fontSize: (() => {
       if (isMobile) {
-        const size = Math.min(screenWidth * 0.07, 35);
-        return Math.max(size, 22); // Minimum for readability
+        const size = Math.min(screenWidth * 0.1, 50);
+        return Math.max(size, 30); // Larger for iPhone style
       }
-      if (isTabletWeb) return 38;
-      return 30;
+      if (isTabletWeb) return 46;
+      return 38;
     })(),
-    color: COLORS.displayText,
-    fontWeight: '300',
+    color: '#FFFFFF',
+    fontWeight: '200',
+    fontFamily: 'Segoe UI, Helvetica, Arial, sans-serif',
   },
   buttonContainer: {
     paddingBottom: isMobile ? 10 : 20,
@@ -183,26 +215,31 @@ export const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: getButtonFontSize(),
-    fontWeight: '500',
+    fontWeight: '600', // Bolder weight for better visibility
+    fontFamily: 'Segoe UI, Helvetica, Arial, sans-serif', // iPhone-style font
+    color: '#FEFEFE', // Off-white
   },
   numberButton: {
     backgroundColor: COLORS.numberButton,
   },
   numberButtonText: {
-    color: COLORS.numberButtonText,
+    color: '#FEFEFE', // Off-white
+    fontWeight: '600', // Bolder weight for better visibility
+    fontFamily: 'Segoe UI, Helvetica, Arial, sans-serif',
   },
   functionButton: {
     backgroundColor: COLORS.functionButton,
   },
   functionButtonText: {
-    color: COLORS.functionButtonText,
-    fontWeight: '600',
+    color: '#FEFEFE', // Off-white for delete, C, % buttons
+    fontWeight: '600', // Bolder weight
+    fontFamily: 'Segoe UI, Helvetica, Arial, sans-serif',
     fontSize: (() => {
       if (isMobile) {
-        const size = Math.min(screenWidth * 0.07, 32);
-        return Math.max(size, 18); // Minimum for small screens
+        const size = Math.min(screenWidth * 0.065, 28); // Even smaller for +/- symbol
+        return Math.max(size, 20);
       }
-      if (isTabletWeb) return 28;
+      if (isTabletWeb) return 26;
       return 24;
     })(),
   },
@@ -210,30 +247,32 @@ export const styles = StyleSheet.create({
     backgroundColor: COLORS.operationButton,
   },
   operationButtonText: {
-    color: COLORS.operationButtonText,
-    fontWeight: '500',
+    color: '#FEFEFE', // Off-white
+    fontWeight: '600', // Bolder weight for better visibility
+    fontFamily: 'Segoe UI, Helvetica, Arial, sans-serif',
     fontSize: (() => {
       if (isMobile) {
-        const size = Math.min(screenWidth * 0.09, 42);
-        return Math.max(size, 22); // Minimum for small screens
+        const size = Math.min(screenWidth * 0.11, 48); // More reasonable operation symbols
+        return Math.max(size, 30);
       }
-      if (isTabletWeb) return 36;
-      return 32;
+      if (isTabletWeb) return 40;
+      return 38;
     })(),
   },
   operationButtonActive: {
     backgroundColor: COLORS.operationButtonActive,
   },
   operationButtonActiveText: {
-    color: COLORS.operationButtonActiveText,
-    fontWeight: '500',
+    color: '#FF9201', // Orange text when button is active
+    fontWeight: '600', // Bolder weight for better visibility
+    fontFamily: 'Segoe UI, Helvetica, Arial, sans-serif',
     fontSize: (() => {
       if (isMobile) {
-        const size = Math.min(screenWidth * 0.09, 42);
-        return Math.max(size, 22); // Minimum for small screens
+        const size = Math.min(screenWidth * 0.11, 48); // More reasonable operation symbols
+        return Math.max(size, 30);
       }
-      if (isTabletWeb) return 36;
-      return 32;
+      if (isTabletWeb) return 40;
+      return 38;
     })(),
   },
 });

@@ -14,8 +14,8 @@ const Calculator = () => {
 
   const buttonLayout = [
     [
-      { value: 'AC', type: 'function' },
-      { value: '+/-', type: 'function' },
+      { value: '⌫', type: 'function' },
+      { value: 'C', type: 'function' },
       { value: '%', type: 'function' },
       { value: '÷', type: 'operation' }
     ],
@@ -38,7 +38,8 @@ const Calculator = () => {
       { value: '+', type: 'operation' }
     ],
     [
-      { value: '0', type: 'number', isWide: true },
+      { value: '+/-', type: 'function' },
+      { value: '0', type: 'number' },
       { value: '.', type: 'number' },
       { value: '=', type: 'operation' }
     ]
@@ -83,6 +84,19 @@ const Calculator = () => {
     setEquation(''); // Clear the equation display
   };
 
+  const deleteLastDigit = () => {
+    if (displayValue === 'Error') {
+      return;
+    }
+
+    if (displayValue.length > 1) {
+      const newValue = displayValue.slice(0, -1);
+      setDisplayValue(newValue);
+    } else {
+      setDisplayValue('0');
+    }
+  };
+
   const toggleSign = () => {
     if (displayValue !== '0') {
       const newValue = displayValue.charAt(0) === '-' 
@@ -114,11 +128,11 @@ const Calculator = () => {
     const inputValue = parseFloat(displayValue);
 
     if (previousValue === null) {
-      // First operation - show the number and operation
+      // First operation - show the full expression building up
       setPreviousValue(inputValue);
-      setEquation(`${displayValue} ${nextOperation}`);
+      setEquation(`${displayValue}${nextOperation}`);
     } else if (operation) {
-      // Chain operations - calculate and continue building equation
+      // Chain operations - continue building the full expression
       const currentValue = previousValue || 0;
       const newValue = calculate(currentValue, inputValue, operation);
 
@@ -133,11 +147,12 @@ const Calculator = () => {
 
       setDisplayValue(String(newValue));
       setPreviousValue(parseFloat(newValue));
-      // Update equation to show the new result and next operation
-      setEquation(`${newValue} ${nextOperation}`);
+      // Build the continuous expression like iPhone calculator
+      setEquation(equation + displayValue + nextOperation);
     } else {
       // Operation after equals - start new calculation
-      setEquation(`${displayValue} ${nextOperation}`);
+      setEquation(`${displayValue}${nextOperation}`);
+      setPreviousValue(inputValue);
     }
 
     setWaitingForOperand(true);
@@ -148,8 +163,8 @@ const Calculator = () => {
     const inputValue = parseFloat(displayValue);
 
     if (previousValue !== null && operation) {
-      // Complete the equation display before calculating
-      const fullEquation = `${equation.replace(/ [+\-×÷]$/, '')} ${operation} ${displayValue} =`;
+      // Complete the equation display like iPhone calculator
+      const fullEquation = equation + displayValue;
       const newValue = calculate(previousValue, inputValue, operation);
       
       if (newValue === 'Error') {
@@ -165,7 +180,7 @@ const Calculator = () => {
       setPreviousValue(null);
       setOperation(null);
       setWaitingForOperand(true);
-      // Show the complete calculation
+      // Show the complete calculation expression
       setEquation(fullEquation);
     }
   };
@@ -194,7 +209,12 @@ const Calculator = () => {
         clear();
         break;
 
+      case '⌫':
+        deleteLastDigit();
+        break;
+
       case '+/-':
+      case '+/−':
       case '±':
         toggleSign();
         break;
@@ -219,9 +239,7 @@ const Calculator = () => {
     }
   };
 
-  const getClearLabel = () => {
-    return displayValue !== '0' || previousValue !== null || operation !== null ? 'C' : 'AC';
-  };
+
 
   const isOperationActive = (op) => {
     return operation === op && waitingForOperand;
@@ -234,25 +252,16 @@ const Calculator = () => {
         <View style={styles.buttonContainer}>
           {buttonLayout.map((row, rowIndex) => (
             <View key={rowIndex} style={styles.buttonRow}>
-              {row.map((button, buttonIndex) => {
-                let buttonDisplayValue = button.value;
-                
-                // Show AC/C dynamically
-                if (button.value === 'AC') {
-                  buttonDisplayValue = getClearLabel();
-                }
-                
-                return (
-                  <CalculatorButton
-                    key={buttonIndex}
-                    value={buttonDisplayValue}
-                    type={button.type}
-                    onPress={handleButtonPress}
-                    isActive={isOperationActive(button.value)}
-                    isWide={button.isWide}
-                  />
-                );
-              })}
+              {row.map((button, buttonIndex) => (
+                <CalculatorButton
+                  key={buttonIndex}
+                  value={button.value}
+                  type={button.type}
+                  onPress={handleButtonPress}
+                  isActive={isOperationActive(button.value)}
+                  isWide={button.isWide}
+                />
+              ))}
             </View>
           ))}
         </View>

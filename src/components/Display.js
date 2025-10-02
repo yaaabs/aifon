@@ -16,11 +16,15 @@ const Display = ({ value, equation }) => {
 
   return (
     <View style={styles.display}>
-      {/* Equation display - shows the calculation being built */}
-      {equation && (
-        <Text style={styles.equationText} numberOfLines={1} adjustsFontSizeToFit>
-          {equation}
-        </Text>
+      {/* Equation display - shows the full calculation expression like iPhone */}
+      {equation ? (
+        <View style={styles.equationContainer}>
+          <Text style={styles.equationText} numberOfLines={1} ellipsizeMode="head">
+            {equation}
+          </Text>
+        </View>
+      ) : (
+        <View style={styles.equationPlaceholder} />
       )}
       {/* Main display - shows current number */}
       <Text style={textStyle} numberOfLines={1} adjustsFontSizeToFit>
