@@ -9,6 +9,9 @@ dist/
 web-build/
 expo-env.d.ts
 
+# Keep web folder for favicons
+!web/
+
 # Native
 .kotlin/
 *.orig.*
@@ -39,3 +42,4 @@ yarn-error.*
 # generated native folders
 /ios
 /android
+.vercel
