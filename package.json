@@ -9,12 +9,21 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@react-native/metro-config": "^0.81.1",
     "expo": "~54.0.12",
     "expo-status-bar": "~3.0.8",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-native": "0.81.4",
+    "react-native-safe-area-context": "~5.6.0",
     "react-native-web": "^0.21.0"
   },
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/react": "~19.1.10",
+    "babel-preset-expo": "^54.0.3",
+    "jest-expo": "^54.0.12",
+    "typescript": "~5.9.2"
+  }
 }

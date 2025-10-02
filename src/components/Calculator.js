@@ -200,31 +200,33 @@ const Calculator = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Display value={displayValue} />
-      <View style={styles.buttonContainer}>
-        {buttonLayout.map((row, rowIndex) => (
-          <View key={rowIndex} style={styles.buttonRow}>
-            {row.map((button, buttonIndex) => {
-              let buttonDisplayValue = button.value;
-              
-              // Show AC/C dynamically
-              if (button.value === 'AC') {
-                buttonDisplayValue = getClearLabel();
-              }
-              
-              return (
-                <CalculatorButton
-                  key={buttonIndex}
-                  value={buttonDisplayValue}
-                  type={button.type}
-                  onPress={handleButtonPress}
-                  isActive={isOperationActive(button.value)}
-                  isWide={button.isWide}
-                />
-              );
-            })}
-          </View>
-        ))}
+      <View style={styles.calculatorWrapper}>
+        <Display value={displayValue} />
+        <View style={styles.buttonContainer}>
+          {buttonLayout.map((row, rowIndex) => (
+            <View key={rowIndex} style={styles.buttonRow}>
+              {row.map((button, buttonIndex) => {
+                let buttonDisplayValue = button.value;
+                
+                // Show AC/C dynamically
+                if (button.value === 'AC') {
+                  buttonDisplayValue = getClearLabel();
+                }
+                
+                return (
+                  <CalculatorButton
+                    key={buttonIndex}
+                    value={buttonDisplayValue}
+                    type={button.type}
+                    onPress={handleButtonPress}
+                    isActive={isOperationActive(button.value)}
+                    isWide={button.isWide}
+                  />
+                );
+              })}
+            </View>
+          ))}
+        </View>
       </View>
     </SafeAreaView>
   );
